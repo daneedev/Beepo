@@ -1,0 +1,26 @@
+{
+  "name": "beepo",
+  "version": "1.0.0",
+  "description": "A general-purpose discord bot (Something like R2D2 for your server)",
+  "homepage": "https://github.com/daneedev/Beepo#readme",
+  "bugs": {
+    "url": "https://github.com/daneedev/Beepo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daneedev/Beepo.git"
+  },
+  "license": "GPL-3.0",
+  "author": "Danee",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
