@@ -11,4 +11,10 @@ function error(message: string): void {
 function info(message: string): void {
   console.log(colors.blue(`[INFO] ${message}`));
 }
-export default { success, error, info };
+
+function warn(message: string): void {
+  console.log(colors.yellow(`[WARN] ${message}`));
+}
+
+
+export default { success, error, info, warn };
