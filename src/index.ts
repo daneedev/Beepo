@@ -4,6 +4,7 @@ import logger from "./handlers/logger";
 import fs from 'fs';
 import path from 'path';
 import deployCommands from './command-deploy';
+import database from "./db"
 
 
 dotenv.config();
@@ -27,15 +28,16 @@ for (const folder of commandFolders) {
         const command = require(filePath).default;
         if ('data' in command && 'execute' in command) {
             client.commands.set(command.data.name, command);
-            logger.success(`Loaded command: ${command.data.name}`);
+            logger.info(`Loaded command: ${command.data.name}`);
         } else {
             logger.error(`The command at ${filePath} is missing a required "data" or "execute" property.`);
         }
     }
 }
 
-client.once(Events.ClientReady, () => {
+client.once(Events.ClientReady, async () => {
   logger.info(`Logged in as ${client.user?.tag}!`);
+  await database.connectDB()
 });
 
 client.on(Events.InteractionCreate, async interaction => {
