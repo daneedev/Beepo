@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Embed } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Invite } from "discord.js";
 import ms from "ms";
 
 export default {
@@ -43,8 +43,15 @@ export default {
                 return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
             }
             try {
-                await member.ban({ reason: reason, deleteMessageSeconds: msg})
-
+                const userEmbed = new EmbedBuilder()
+                    .setTitle(`You have been permanently banned from ${interaction.guild?.name}`)
+                    .addFields(
+                        { name: "Reason", value: reason, inline: true},
+                        { name: "Banned by", value: `<@${interaction.user.id}>`, inline: true}
+                    )
+                    user.send({ embeds: [userEmbed]}).then(async (m) => {
+                        await member.ban({ reason: reason, deleteMessageSeconds: msg})
+                    })
                 const successEmbed = new EmbedBuilder()
                     .setTitle(`User ${user.username} has been successfully banned!`)
                     .addFields(

@@ -1,4 +1,4 @@
-import {SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, User, MessageFlags } from "discord.js";
+import {SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, User, MessageFlags, Invite } from "discord.js";
 
 export default {
     data: new SlashCommandBuilder()
@@ -28,7 +28,18 @@ export default {
             return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
         }
         try {
-            await member.kick(reason)
+            const invite = await interaction.guild?.invites.create(interaction.channelId, { maxAge: 259200, maxUses: 1}) as Invite
+            const userEmbed = new EmbedBuilder()
+                .setTitle(`You have been kicked from ${interaction.guild?.name}`)
+                .addFields(
+                    { name: "Reason", value: reason, inline: true},
+                    { name: "Kicked by", value: `<@${interaction.user.id}>`, inline: true}
+                )
+                .setDescription(`You can still rejoin back to the server [here](https://discord.gg/${invite.code})`)
+            user.send({ embeds: [userEmbed] }).then(async (msg) => {
+                 await member.kick(reason)
+            })
+            
             const successEmbed = new EmbedBuilder()
                 .setColor("#00ff00")
                 .setTitle(`Successfully kicked ${user.username} from the server.`)
@@ -38,7 +49,7 @@ export default {
                     { name: "Reason", value: reason, inline: true }
                 )
                 .setFooter({ text: `Kicked by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() });
-            return interaction.reply({ embeds: [successEmbed] });
+            interaction.reply({ embeds: [successEmbed] });
         } catch (error) {
             errorEmbed.setTitle("An error occurred while trying to kick the user.");
             return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
