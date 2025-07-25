@@ -1,4 +1,4 @@
-import {SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, User } from "discord.js";
+import {SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, User, MessageFlags } from "discord.js";
 
 export default {
     data: new SlashCommandBuilder()
@@ -20,12 +20,12 @@ export default {
         const errorEmbed = new EmbedBuilder()
             .setColor("#ff0000")
         if (!member) {
-           errorEmbed.setDescription("User not found in this server.");
-           return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+           errorEmbed.setTitle("User not found in this server.");
+           return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
         }
         if (!member.kickable) {
-            errorEmbed.setDescription("I cannot kick this user. They might have a higher role or I lack permissions.");
-            return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            errorEmbed.setTitle("I cannot kick this user. They might have a higher role or I lack permissions.");
+            return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
         }
         try {
             await member.kick(reason)
@@ -40,8 +40,8 @@ export default {
                 .setFooter({ text: `Kicked by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() });
             return interaction.reply({ embeds: [successEmbed] });
         } catch (error) {
-            errorEmbed.setDescription("An error occurred while trying to kick the user.");
-            return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            errorEmbed.setTitle("An error occurred while trying to kick the user.");
+            return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral });
         }
 
     }
