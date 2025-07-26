@@ -4,7 +4,7 @@ import logger from "./handlers/logger";
 import fs from 'fs';
 import path from 'path';
 import deployCommands from './command-deploy';
-import database from "./db"
+import { connectDB } from "./db"
 
 
 dotenv.config();
@@ -37,7 +37,7 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, async () => {
   logger.info(`Logged in as ${client.user?.tag}!`);
-  await database.connectDB()
+  await connectDB()
 });
 
 client.on(Events.InteractionCreate, async interaction => {
