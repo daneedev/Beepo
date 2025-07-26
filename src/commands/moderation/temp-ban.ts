@@ -50,7 +50,8 @@ export default {
                 return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
             }
             try {
-                const dateUnban = Date.now() + durationMs
+                const dateUnban = Math.floor(Date.now() / 1000) + (durationMs / 1000);
+                console.log(Date.now(), durationMs)
                 const invite = await interaction.guild?.invites.create(interaction.channelId, { maxAge: durationMs / 1000 + 259200, maxUses: 1}) as Invite
                 const userEmbed = new EmbedBuilder()
                     .setTitle(`You have been temporarily banned from ${interaction.guild?.name}`)

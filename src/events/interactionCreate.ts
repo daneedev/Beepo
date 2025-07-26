@@ -14,7 +14,7 @@ export default {
         }
 
         try {
-
+            await command.execute(interaction);
         } catch (error : string | any) {
             logger.error(error)
             if (interaction.replied || interaction.deferred ) {
