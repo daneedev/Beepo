@@ -5,7 +5,7 @@ class TempBan extends Model {
     declare id: number;
     declare guildId: string;
     declare userId: string;
-    declare unbanDate: Date;
+    declare unbanTimestamp: string;
 
     declare readonly createdAt: Date;
     declare readonly updatedAt: Date;
@@ -25,8 +25,8 @@ TempBan.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    unbanDate: {
-        type: DataTypes.DATE,
+    unbanTimestamp: {
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
