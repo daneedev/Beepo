@@ -9,6 +9,10 @@ export default {
             option.setName("user")
                 .setDescription("The user to ban")
                 .setRequired(true))
+        .addStringOption(option =>
+            option.setName("reason")
+                .setDescription("The reason for the ban")
+                .setRequired(false))
         .addIntegerOption(option =>
             option.setName("msg")
                 .setDescription("The number of messages to delete")
@@ -21,10 +25,6 @@ export default {
                     { name: "Previous 3 days", value: 259200 },
                     { name: "Previous 7 days", value: 604800 }
                 )
-                .setRequired(false))
-        .addStringOption(option =>
-            option.setName("reason")
-                .setDescription("The reason for the ban")
                 .setRequired(false)),
         async execute(interaction: ChatInputCommandInteraction) {
             const user = interaction.options.getUser("user") as User;
