@@ -8,6 +8,7 @@ export default {
             option.setName("reason")
                 .setDescription("Reason for locking the channel")
                 .setRequired(false)),
+    permission: "ManageChannels",
     async execute(interaction: ChatInputCommandInteraction) {
         const reason = interaction.options.getString("reason") || "No reason provided"
         const channel = interaction.channel

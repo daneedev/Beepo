@@ -8,6 +8,7 @@ export default {
             option.setName("number")
                 .setDescription("Number of messages to delete")
                 .setRequired(true)),
+    permission: "ManageMessages",
     async execute(interaction: ChatInputCommandInteraction) {
         const number = interaction.options.getInteger("number", true)
         

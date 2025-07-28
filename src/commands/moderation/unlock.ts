@@ -4,6 +4,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName("unlock")
         .setDescription("Unlock a locked channel"),
+    permission: "ManageChannels",
     async execute(interaction: ChatInputCommandInteraction) {
         const channel = interaction.channel
 

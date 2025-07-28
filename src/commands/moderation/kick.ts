@@ -12,6 +12,7 @@ export default {
             option.setName("reason")
                 .setDescription("The reason for the kick")
                 .setRequired(false)),
+    permission: "KickMembers",
     async execute(interaction: ChatInputCommandInteraction) {
         const user = interaction.options.getUser("user") as User;
         const reason = interaction.options.getString("reason") || "No reason provided";

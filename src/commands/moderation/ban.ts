@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Invite } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Invite, PermissionsBitField, PermissionFlagsBits } from "discord.js";
 import ms from "ms";
 
 export default {
@@ -26,6 +26,7 @@ export default {
                     { name: "Previous 7 days", value: 604800 }
                 )
                 .setRequired(false)),
+        permission: "BanMembers",
         async execute(interaction: ChatInputCommandInteraction) {
             const user = interaction.options.getUser("user") as User;
             const reason = interaction.options.getString("reason") || "No reason provided";

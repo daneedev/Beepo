@@ -12,6 +12,7 @@ export default {
             option.setName("reason")
                 .setDescription("The reason for the unban")
                 .setRequired(false)),
+        permission: "BanMembers",
         async execute(interaction: ChatInputCommandInteraction) {
             const userId = interaction.options.getString("user_id", true)
             const reason = interaction.options.getString("reason") || "No reason provided"

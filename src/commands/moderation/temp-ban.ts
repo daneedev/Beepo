@@ -31,6 +31,7 @@ export default {
                     { name: "Previous 7 days", value: 604800 }
                 )
                 .setRequired(false)),
+        permission: "BanMembers",
         async execute(interaction: ChatInputCommandInteraction) {
             const user = interaction.options.getUser("user") as User;
             const duration = interaction.options.getString("duration", true)
