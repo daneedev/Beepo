@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ChatInputCommandInteraction } from "discord.js"
 import Warn from "../../models/warn"
+import { find } from "cheerio/lib/api/traversing"
 
 export default {
     data: new SlashCommandBuilder()
@@ -24,6 +25,15 @@ export default {
                     option.setName("user")
                         .setDescription("User you want to list it's warnings")
                         .setRequired(true))
+        )
+        .addSubcommand(option =>
+            option.setName("delete")
+            .setDescription("Delete warning from user")
+            .addStringOption(option =>
+                option.setName("warn_id")
+                    .setDescription("ID of the warn")
+                    .setRequired(true)
+            )
         ),
     permission: "KickMembers",
     async execute(interaction: ChatInputCommandInteraction) {
@@ -93,6 +103,27 @@ export default {
                 .setDescription(warningsMsg)
             
                 interaction.reply({ embeds: [successEmbed]})
+        } else if (subcommand === "delete") {
+            const warnId = interaction.options.getString("warn_id")
+
+            const findWarn = await Warn.findOne({where: {id: warnId}})
+
+            const errorEmbed = new EmbedBuilder()
+                .setColor("#ff0000")
+
+            if (!findWarn) {
+                errorEmbed.setTitle(`No warning with ID ${warnId} found!`)
+                return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+            }
+
+            await Warn.destroy({ where: {id: warnId}})
+
+            const successEmbed = new EmbedBuilder()
+                .setTitle(`Warn deleted!`)
+                .setDescription(`Warn successfully deleted!`)
+                .setColor("Green")
+
+            interaction.reply({ embeds: [successEmbed]})
         }
         
     }
