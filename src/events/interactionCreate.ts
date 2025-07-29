@@ -14,17 +14,19 @@ export default {
         }
         const errorEmbed = new EmbedBuilder()
             .setColor("#ff0000");
-        
-        if (!(interaction.member?.permissions as Readonly<PermissionsBitField>).has(command.permission)) {
-            errorEmbed.setTitle("You don't have permissions to execute this command!")
-            errorEmbed.setDescription(`You need to have **${command.permission}** permission`)
-            return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
-        }
 
-        if (!interaction.guild?.members.me?.permissions.has(command.permission)) {
-            errorEmbed.setTitle("I don't have permissions to complete this command!")
-            errorEmbed.setDescription(`I need to have **${command.permission}** permission`)
-            return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+        if (command.permission) {
+            if (!(interaction.member?.permissions as Readonly<PermissionsBitField>).has(command.permission)) {
+                errorEmbed.setTitle("You don't have permissions to execute this command!")
+                errorEmbed.setDescription(`You need to have **${command.permission}** permission`)
+                return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+            }
+
+            if (!interaction.guild?.members.me?.permissions.has(command.permission)) {
+                errorEmbed.setTitle("I don't have permissions to complete this command!")
+                errorEmbed.setDescription(`I need to have **${command.permission}** permission`)
+                return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+            }
         }
 
         try {
