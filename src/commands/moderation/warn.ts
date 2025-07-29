@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ChatInputCommandInteraction } from "discord.js"
 import Warn from "../../models/warn"
-import { find } from "cheerio/lib/api/traversing"
+import Config from "../../models/config"
 
 export default {
     data: new SlashCommandBuilder()
@@ -39,13 +39,23 @@ export default {
     async execute(interaction: ChatInputCommandInteraction) {
         const subcommand = interaction.options.getSubcommand(true)
 
+        const config = await Config.findOne({ where: { guildId: interaction.guildId }})
+
+        const errorEmbed = new EmbedBuilder()
+                .setColor("#ff0000")
+
+        if (!config?.warnSys) {
+            errorEmbed.setTitle("Module is disabled")
+                .setDescription("Module `warnsys` is disabled\nEnable it using `/configure`")
+            return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+        }
+
        if (subcommand === "add") {
             const user = interaction.options.getUser("user", true)
             const reason = interaction.options.getString("reason") || "No reason provided"
             const member = interaction.guild?.members.cache.get(user.id)
 
-            const errorEmbed = new EmbedBuilder()
-                .setColor("#ff0000")
+            
             if (!member) {
                 errorEmbed.setTitle("Member not found!")
                 return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral})

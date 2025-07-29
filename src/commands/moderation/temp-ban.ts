@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, User, MessageFlags, Invite, Embed } from "discord.js"
 import ms, { StringValue } from "ms";
 import TempBan from "../../models/tempban";
+import Config from "../../models/config"
 
 export default {
     data: new SlashCommandBuilder()
@@ -42,6 +43,14 @@ export default {
 
             const errorEmbed = new EmbedBuilder()
                 .setColor("#ff0000")
+
+            const config = await Config.findOne({ where: { guildId: interaction.guildId }})
+
+            if (!config?.tempBan) {
+                errorEmbed.setTitle("Module is disabled")
+                errorEmbed.setDescription("Module `tempban` is disabled\nEnable it using `/configure`")
+                return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
+            }
             if (!member) {
                 errorEmbed.setTitle("User not found in this server.")
                 return interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
