@@ -3,7 +3,7 @@ import logger from "./handlers/logger";
 
 const db = new Sequelize({
     dialect: "sqlite",
-    storage: "./db.sqlite",
+    storage: "./data/db.sqlite",
     logging: false
 })
 
