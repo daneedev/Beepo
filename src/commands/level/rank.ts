@@ -8,7 +8,7 @@ function getNeededXP(level: number) : number {
 
 export default {
     data: new SlashCommandBuilder()
-        .setName("level")
+        .setName("rank")
         .setDescription("Show your/someones level")
         .addUserOption(option =>
             option.setName("user")
