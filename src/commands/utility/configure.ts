@@ -11,7 +11,8 @@ export default {
                 .setDescription("Feature name")
                 .addChoices(
                     {name: "TempBan system", value: "tempban"},
-                    {name: "Warn system", value: "warnsys"}
+                    {name: "Warn system", value: "warnsys"},
+                    {name: "Level system", value: "levelsys"}
                 )
                 .setRequired(true))
         .addBooleanOption(option =>
@@ -28,7 +29,8 @@ export default {
             guildConfig = await Config.create({
                 guildId: interaction.guildId,
                 tempBan: false,
-                warnSys: false
+                warnSys: false,
+                levelSys: false
             })
         }
 
@@ -38,6 +40,9 @@ export default {
                 break;
             case "warnsys":
                 guildConfig.warnSys = value;
+                break;
+            case "levelsys":
+                guildConfig.levelSys = value;
                 break;
         }
 

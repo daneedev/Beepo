@@ -6,6 +6,7 @@ class Config extends Model {
     declare guildId: string;
     declare tempBan: boolean;
     declare warnSys: boolean;
+    declare levelSys: boolean;
 
 }
 
@@ -22,11 +23,18 @@ Config.init({
     },
     tempBan: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     },
     warnSys: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
+    },
+    levelSys: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     tableName: "configs",
