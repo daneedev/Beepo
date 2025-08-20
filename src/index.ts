@@ -10,8 +10,12 @@ import logger from "./handlers/logger";
 import fs from "fs";
 import path from "path";
 import deployCommands from "./command-deploy";
-import { GiveawayManager, SequelizeAdapter } from "better-giveaways";
-import { db } from "./db";
+import {
+  GiveawayManager,
+  JSONAdapter,
+  SequelizeAdapter,
+} from "better-giveaways";
+import { db, connectDB } from "./db";
 
 dotenv.config();
 
@@ -19,7 +23,9 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
-const adapter = new SequelizeAdapter(db);
+connectDB();
+
+const adapter = new JSONAdapter(__dirname + "/../data/giveaways.json");
 const manager = new GiveawayManager(client, adapter, {
   reaction: "🎉",
   botsCanWin: false,

@@ -2,18 +2,20 @@ import { Sequelize } from "sequelize";
 import logger from "./handlers/logger";
 
 const db = new Sequelize({
-    dialect: "sqlite",
-    storage: "./data/db.sqlite",
-    logging: false
-})
+  dialect: "sqlite",
+  storage: "./data/db.sqlite",
+  logging: false,
+});
 
 async function connectDB() {
-    try {
-        await db.authenticate()
-        logger.success("Database connected succesfully")
-    } catch (error) {
-        logger.error("Unable to connect to database, error: " + error)
-    }
+  try {
+    await db.authenticate();
+    logger.success("Database connected succesfully");
+  } catch (error) {
+    logger.error("Unable to connect to database, error: " + error);
+  }
 }
 
-export { connectDB, db};
+db.sync();
+
+export { connectDB, db };
