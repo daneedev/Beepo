@@ -14,12 +14,6 @@ export default {
       option
         .setName("start")
         .setDescription("Start a giveaway")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("Channel for the giveaway")
-            .setRequired(false)
-        )
         .addStringOption((option) =>
           option.setName("prize").setDescription("Prize").setRequired(true)
         )
@@ -34,6 +28,12 @@ export default {
             .setName("winners")
             .setDescription("Number of winners")
             .setRequired(true)
+        )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("Channel for the giveaway")
+            .setRequired(false)
         )
     )
     .addSubcommand((option) =>
