@@ -19,8 +19,9 @@
     "dev": "ts-node-dev --files src/index.ts"
   },
   "dependencies": {
-    "better-giveaways": "^1.0.0-beta.3",
     "colors": "^1.4.0",
+    "dayjs": "^1.11.18",
+    "discord-giveaways": "^6.0.1",
     "discord.js": "^14.21.0",
     "dotenv": "^17.2.0",
     "ms": "^2.1.3",

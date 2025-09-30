@@ -10,29 +10,31 @@ import logger from "./handlers/logger";
 import fs from "fs";
 import path from "path";
 import deployCommands from "./command-deploy";
-import {
-  GiveawayManager,
-  JSONAdapter,
-  SequelizeAdapter,
-} from "better-giveaways";
 import { db, connectDB } from "./db";
+import { GiveawaysManager } from "discord-giveaways";
 
 dotenv.config();
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessageReactions,
+  ],
 });
 
 connectDB();
 
-const adapter = new JSONAdapter(__dirname + "/../data/giveaways.json");
-const manager = new GiveawayManager(client, adapter, {
-  reaction: "🎉",
-  botsCanWin: false,
-  language: "en",
+const manager = new GiveawaysManager(client, {
+  storage: path.join(__dirname, "../data/giveaways.json"),
+  default: {
+    botsCanWin: false,
+    embedColor: "#FF0000",
+    reaction: "🎉",
+  },
 });
 
-client.manager = manager;
+client.giveawaysManager = manager;
 
 client.commands = new Collection();
 
